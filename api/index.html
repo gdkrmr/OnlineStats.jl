@@ -294,6 +294,12 @@
             </li>
           
             <li class="anchor">
+              <a title="Extremas" href="#extremas">
+                Extremas
+              </a>
+            </li>
+          
+            <li class="anchor">
               <a title="FitBeta" href="#fitbeta">
                 FitBeta
               </a>
@@ -308,6 +314,12 @@
             <li class="anchor">
               <a title="FitCauchy" href="#fitcauchy">
                 FitCauchy
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="FitDirichletMultinomial" href="#fitdirichletmultinomial">
+                FitDirichletMultinomial
               </a>
             </li>
           
@@ -398,6 +410,12 @@
             <li class="anchor">
               <a title="OnlineStat" href="#onlinestat">
                 OnlineStat
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="OrderStatistics" href="#orderstatistics">
+                OrderStatistics
               </a>
             </li>
           
@@ -575,7 +593,7 @@
       <article class="article">
         <div class="wrapper">
           
-          <!--- Generated at 2016-10-17T15:44:40.921.  Don't edit --->
+          <!--- Generated at 2016-12-19T14:38:39.483.  Don't edit --->
 
 <h1 id="api">API</h1>
 <h2 id="bernoullibootstrap">BernoulliBootstrap</h2>
@@ -648,6 +666,15 @@
 </pre></div>
 
 
+<h2 id="extremas">Extremas</h2>
+<p>Extremas (maximum and minimum) of multiple series.</p>
+<div class="code"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">o</span> <span class="o">=</span> <span class="n">Extremas</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">fit!</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<span class="n">extrema</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+</pre></div>
+
+
 <h2 id="fitbeta">FitBeta</h2>
 <p>No documentation found.</p>
 <p><strong>Summary:</strong></p>
@@ -677,6 +704,15 @@ var   :: OnlineStats.Variance{W&lt;:OnlineStats.Weight}
 <p><strong>Fields:</strong></p>
 <div class="code"><pre><span></span>value :: Distributions.Cauchy{T&lt;:Real}
 q     :: OnlineStats.QuantileMM{W&lt;:OnlineStats.Weight}
+</pre></div>
+
+
+<h2 id="fitdirichletmultinomial">FitDirichletMultinomial</h2>
+<p>No documentation found.</p>
+<p><code>OnlineStats.FitDirichletMultinomial</code> is a <code>Function</code>.</p>
+<div class="code"><pre><span></span># 2 methods for generic function &quot;FitDirichletMultinomial&quot;:
+FitDirichletMultinomial{T&lt;:Real}(y::AbstractArray{T,2}) at none:2
+FitDirichletMultinomial{T&lt;:Real}(y::AbstractArray{T,2}, wgt::OnlineStats.Weight) at none:2
 </pre></div>
 
 
@@ -842,6 +878,7 @@ OnlineStats.Diffs{T&lt;:Real}
 OnlineStats.Diff{T&lt;:Real}
 OnlineStats.DistributionStat{I&lt;:OnlineStats.Input}
 OnlineStats.Extrema
+OnlineStats.Extremas
 OnlineStats.HyperLogLog
 OnlineStats.KMeans{W&lt;:OnlineStats.Weight}
 OnlineStats.Means{W&lt;:OnlineStats.Weight}
@@ -857,6 +894,12 @@ OnlineStats.Variance{W&lt;:OnlineStats.Weight}
 </pre></div>
 
 
+<h2 id="orderstatistics">OrderStatistics</h2>
+<div class="code"><pre><span></span><span class="n">o</span> <span class="o">=</span> <span class="n">OrderStatistics</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Ignores Weight.  Track the online mean of order statistics (sorted data from smallest to largest).  For every batch of <code>p</code> observations, sort the points and update the mean.</p>
 <h2 id="poissonbootstrap">PoissonBootstrap</h2>
 <p>No documentation found.</p>
 <p><code>OnlineStats.PoissonBootstrap</code> is a <code>Function</code>.</p>
@@ -1042,6 +1085,21 @@ fit!(o, y, wts) # update observation i using wts[i]
 </pre></div>
 
 
+<p>Update an OnlineStat with more data.  Additional arguments after the input data provide extra control over how the updates are done.</p>
+<div class="code"><pre><span></span>y = randn(100)
+o = Mean()
+
+fit!(o, y)      # standard usage
+
+fit!(o, y, 10)  # update in minibatches of size 10
+
+fit!(o, y, .1)  # update using weight .1 for each observation
+
+wts = rand(100)
+fit!(o, y, wts) # update observation i using wts[i]
+</pre></div>
+
+
 <h2 id="fitdistribution">fitdistribution</h2>
 <p>Estimate the parameters of a distribution.</p>
 <div class="code"><pre><span></span><span class="k">using</span> <span class="n">Distributions</span>
@@ -1108,6 +1166,12 @@ replicates(b::OnlineStats.Bootstrap) at /Users/joshday/.julia/v0.5/OnlineStats/s
 
 <p>Compute the standardized skewness of a real-valued array <code>v</code>, optionally specifying a weighting vector <code>wv</code> and a center <code>m</code>.</p>
 <h2 id="value">value</h2>
+<p>The associated value of an OnlineStat.</p>
+<div class="code"><pre><span></span>o = Mean()
+value(o)
+</pre></div>
+
+
 <p>The associated value of an OnlineStat.</p>
 <div class="code"><pre><span></span>o = Mean()
 value(o)
